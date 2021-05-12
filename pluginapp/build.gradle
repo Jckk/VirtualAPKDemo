@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.didi.virtualapk.plugin'
+android {
+    signingConfigs {
+        release {
+            storeFile file('D:\\VirtualApk\\pluginapp\\pluginapksign.jks')
+            storePassword 'virtualapk2021'
+            keyAlias = 'virtualapk'
+            keyPassword 'virtualapk2021'
+        }
+    }
+    compileSdkVersion VERSION_COMPILE_SDK
+    buildToolsVersion VERSION_BUILD_TOOLS
+    defaultConfig {
+        applicationId "com.example.pluginapp"
+        minSdkVersion VERSION_MIN_SDK
+        targetSdkVersion VERSION_TARGET_SDK
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:23.4.0'
+}
+virtualApk{
+    packageId = 0x6f
+    targetHost = '../../VirtualApk/app'//宿主应用的app模块路径(绝对路径和相对路径都可以)
+    applyHostMapping = true
+}
